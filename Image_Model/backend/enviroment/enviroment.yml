@@ -1,0 +1,12 @@
+name: ml_project
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - flask
+  - flask-cors
+  - pillow
+  - numpy
+  - pip
+  - pip:
+    - tensorflow==2.13.0

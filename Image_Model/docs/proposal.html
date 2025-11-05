@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ML 4641 Project Proposal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="title">
+      <h1>AI Image Detection Model</h1>
+      <p class="name">Team 54 - Project Proposal</p>
+    </div>
+  </header>
+  
+  <main class="proposal">
+    <div>
+      <section id="intro">
+        <h2>Introduction/Background</h2>
+        <p>
+          Due to the increased proficiency of AI in generating images, our team decided that an impactful topic for our project would be in detecting these synthetic images.
+        </p>
+        <p>
+          A paper that details a similar goal “Detection of AI-Created Images Using Convolutional Neural Networks”[1],  discusses the growing concern of image generation, and the methods that they implemented in addressing it. Simply stated, the paper details the experience in creating a tool capable of  “making a binary decision over an image, asking whether it is artificially or naturally created”[1]. There has been notable success in our topic prior to recent AI improvements. In 2022 similar detection models were studied, credited with achieving up to “98% accuracy in detecting Deepfakes”[2]. However, stats such as these relied heavily on alignment between the train and test sets, as using “unrelated datasets drops the performance close to 50%”[2]. 
+        </p>
+        Dataset: https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images<br>
+        Our model will be trained on the “Krizhevsky & Hinton CIFAR-10” dataset, which contains 60,000 artificial images and 60,000 natural ones. This set is commonly accepted in training models to classify image generation.
+      </section>
+
+      <section id="problem">
+        <h2>Problem Definition</h2>
+        <p>
+          As AI-generated images become increasingly realistic, distinguishing them from real images has become a significant challenge. The potential misuse of such images to spread misinformation or perform identity theft raise ethical and security concerns. Since there is no universal legal requirement for AI-generated images to be labeled, it is crucial to develop automated methods for detecting and classifying them. Our project aims to leverage machine learning to differentiate between AI-generated and authentic images, providing a reliable tool for verification and ensuring trust in digital media.
+        </p>
+      </section>
+
+      <section id="methods">
+        <h2>Methods</h2>
+        <p>
+            Methods of data preprocessing that we have identified are Image Resizing, Edge Detection, and Color Distribution. Image resizing will help us to ensure consistent image dimensions for our inputs, while normalization would scale pixel values between 0 and 1 which will help in implementing neural networks. Edge detection would identify structures in the image, which is useful as some AI images lack solid edges and often contain smooth transitions between objects. Color Distribution would identify the spread of different colors with the intensity of the pixels of the image. This is useful as AI images often contain overly vibrant color distributions or too uniform ones. We aim to use supervised learning like binary classification in this project. Some of the supervised algorithms we are proposing to use include Convolutional Neural Networks, Logistic regression, and Support Vector Machine, as these are well suited for binary classification tasks in machine learning.
+        </p>
+      </section>
+
+      <section id="results">
+        <h2>Results and Discussion</h2>
+        <p>
+          To evaluate our synthetic image detection model, we will use accuracy, precision, recall, and F-measure score. Accuracy measures correctly classified images, with a goal of 90% or higher on our test set. Precision reflects correctly identified AI images, while recall captures the number of actual AI images classified correctly, both aiming for at least 85%. The F-measure score balances precision and recall, with a goal of 0.88 or higher. By using these methods of scoring, we ensure that "the forecaster maximizes the expected score for an observation drawn from the distribution F if he or she issues the probabilistic forecast F, rather than G ≠ F." <br>
+          <br>
+          Our project aims to uphold ethical use of AI by creating a system to ensure truth and transparency. Our main goals include accuracy through generalization across datasets and sustainability through optimized model efficiency. We aim to achieve over 90% accuracy on current datasets, though with new data being produced everyday, our model will need to be adaptable. <br>
+          <br>
+          For the results of this project, we expect our model to correctly predict the classification of synthetic images within an acceptable degree of error. 
+        </p>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <p>
+          [1] F. Martin-Rodriguez, R. Garcia-Mojon, and M. Fernandez-Barciela, "Detection of AI-Created Images Using Pixel-Wise Feature Extraction and Convolutional Neural Networks," Sensors, vol. 23, no. 21, p. 8846, Nov. 2023. Available: https://pmc.ncbi.nlm.nih.gov/articles/PMC10674908/. <br>
+          [2] A. Tolosana, R. Vera-Rodriguez, J. Fierrez, A. Morales, and J. Ortega-Garcia, "Deepfake Detection: A Systematic Literature Review," *IEEE Access*, vol. 9, pp. 9915–9945, 2021. Available: [https://ieeexplore.ieee.org/document/9721302](https://ieeexplore.ieee.org/document/9721302). <br>
+          [3] Gneiting, T., & Raftery, A. E. (2007). Strictly Proper Scoring Rules, Prediction, and Estimation. Journal of the American Statistical Association, 102(477), 359–378. https://doi.org/10.1198/016214506000001437 <br>
+        </p>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <nav class="links">
+      <a href="gantt-chart-proposal.html">Gantt Chart</a> |
+      <a href="contribution-table-proposal.html">Contribution Table</a>
+    </nav>
+  </footer>
+</body>
+</html>

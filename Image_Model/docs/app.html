@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Demo App</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+  <header>
+    <div class="title">
+      <h1>AI Image Detection Model</h1>
+      <p class="name">Team 54 - Demo App</p>
+    </div>
+  </header>
+
+  <main class="proposal">
+    <section>
+      <h2>Image Detection Model</h2>
+
+      <div class="form-group">
+        <label for="modelSelect">Select Model:</label>
+
+        <select id="modelSelect" class="select-input">
+          <option value="95">CNN 95%</option>
+          <option value="60">CNN 60%</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label for="fileInput">Choose an Image:</label>
+        <input type="file" id="fileInput" class="file-input" accept="image/*"/>
+      </div>
+
+      <button id="goBtn" class="btn">Classify!</button>
+
+      <h3>Result</h3>
+      <ul id="results" class="results"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <nav class="links">
+      <a href="index.html">Final Report</a> |
+      <a href="gantt-chart-final.html">Gantt Chart</a> |
+      <a href="contribution-table-final.html">Contribution Table</a>
+    </nav>
+  </footer>
+
+  <script>
+
+    const modelSelect = document.getElementById("modelSelect");
+    const fileInput     = document.getElementById("fileInput");
+    const goBtn         = document.getElementById("goBtn");
+    const results       = document.getElementById("results");
+    let selectedFile    = null;
+
+    fileInput.onchange = e => {
+
+      selectedFile = e.target.files[0];
+
+    };
+
+    goBtn.onclick = () => {
+      if (!selectedFile) {    
+        return alert('No Image Selected');
+      }
+
+      const fd = new FormData();
+
+      fd.append('image', selectedFile);
+      fd.append('type', modelSelect.value);
+
+      fetch('/predict', { method: 'POST', body: fd })
+        .then(async res => {
+          const data = await res.json().catch(_ => null);
+
+          if (!res.ok) {
+            alert(`Error: ${data?.error || res.statusText}`);
+
+            console.error(data);
+            return;
+          }
+
+          results.innerHTML = `
+            <li><strong>Model:</strong> CNN ${data.type}%</li>
+            <li><strong>Prediction:</strong> ${data.prediction}</li>
+          `;
+        })
+        .catch(err => {
+          console.error('Fetch error:', err);
+          alert('Try Again');
+
+        });
+    };
+
+  </script>
+</body>
+</html>

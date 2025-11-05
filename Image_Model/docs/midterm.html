@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ML 4641 Midterm Checkpoint</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="title">
+      <h1>AI Image Detection Model</h1>
+      <p class="name">Team 54 - Midterm Checkpoint</p>
+    </div>
+  </header>
+  
+  <main class="proposal">
+    <div>
+      <section id="intro">
+        <h2>Introduction/Background</h2>
+        <p>
+          Due to the increased proficiency of AI in generating images, our team decided that an impactful topic for our project would be in detecting these synthetic images.
+        </p>
+        <p>
+          A paper that details a similar goal “Detection of AI-Created Images Using Convolutional Neural Networks”[1],  discusses the growing concern of image generation, and the methods that they implemented in addressing it. Simply stated, the paper details the experience in creating a tool capable of  “making a binary decision over an image, asking whether it is artificially or naturally created”[1]. There has been notable success in our topic prior to recent AI improvements. In 2022 similar detection models were studied, credited with achieving up to “98% accuracy in detecting Deepfakes”[2]. However, stats such as these relied heavily on alignment between the train and test sets, as using “unrelated datasets drops the performance close to 50%”[2]. 
+        </p>
+        Dataset: https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images<br>
+        Our model will be trained on the “Krizhevsky & Hinton CIFAR-10” dataset, which contains 60,000 artificial images and 60,000 natural ones. This set is commonly accepted in training models to classify image generation.
+      </section>
+
+      <section id="problem">
+        <h2>Problem Definition</h2>
+        <p>
+          As AI-generated images become increasingly realistic, distinguishing them from real images has become a challenge. The potential misuse of such images to spread misinformation or perform identity theft raise ethical concerns. Since there's no universal legal requirement for AI-generated images to be labeled, it's crucial to develop automated methods for detecting and classifying them. We hope to provide a reliable tool for verification of digital media.
+        </p>
+      </section>
+
+      <section id="methods">
+        <h2>Methods</h2>
+        <p>
+          To preprocess our data, we resized and grayscaled all images to ensure consistency and reduce computational complexity. This step was important to introduce uniformity among the dataset and help speed up convergence of our model. Given that each pixel represents a feature, the image data was high-dimensional and it was essential to use dimensionality reduction. We used PCA as our dimensionality reduction technique. We weighed the differences between PCA and SVD but the paper “PCA based image denoising”[3] biased us toward PCA due to it’s ability to preserve  “only the several most significant principal components, [so that] the noise and trivial information can be removed”. It was important to maximize variance so that only the most information features that could be used to distinguish between real and synthetic images. Additionally, focusing on principal components helped mitigate the risk of overfitting. 
+<br> For classification, we employed support vector machines (SVMs). SVMs are effective in high-dimensional spaces and are capable of finding an optimal hyperplane without overfitting. This method also relies on maximizing the margin between classes, which was crucial due to the nature of our data. These images had a large number of irrelevant features and were not necessarily linearly separable, even after dimensionality reduction. By utilizing SVMs, we were able to classify high-dimensional data while minimizing the risk of overfitting. 
+        </p>
+      </section>
+
+      <section id="results">
+        <h2>Results and Discussion</h2>
+        <figure>
+            <img src="assets/60.png" alt="Confusion Matrix for 60% Retained Varience">
+            <figcaption>Figure 1: Confusion Matrix for 60% Retained Varience -    70.01% Accuracy </figcaption>
+        </figure>
+        <figure>
+            <img src="assets/65.png" alt="Confusion Matrix for 65% Retained Varience">
+            <figcaption>Figure 2: Confusion Matrix for 65% Retained Varience -    71.93% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/70.png" alt="Confusion Matrix for 70% Retained Varience">
+            <figcaption>Figure 3: Confusion Matrix for 70% Retained Varience -    74.68% Accuracy </figcaption>
+        </figure>
+        <figure>
+            <img src="assets/75.png" alt="Confusion Matrix for 75% Retained Varience">
+            <figcaption>Figure 4: Confusion Matrix for 75% Retained Varience -    76.80% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/80.png" alt="Confusion Matrix for 80% Retained Varience">
+            <figcaption>Figure 5: Confusion Matrix for 80% Retained Varience -    78.86% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/85.png" alt="Confusion Matrix for 85% Retained Varience">
+            <figcaption>Figure 6: Confusion Matrix for 85% Retained Varience -    79.80% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/90.png" alt="Confusion Matrix for 90% Retained Varience">
+            <figcaption>Figure 7: Confusion Matrix for 90% Retained Varience -    80.83% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/output.png" alt="Accuracy vs Varience">
+            <figcaption>Figure 8: Accuracy vs Retained Varience Graph</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/output1.png" alt="Features vs Varience">
+          <figcaption>Figure 9: Number of Features vs Retained Varience Graph</figcaption>
+      </figure>
+        <p>ANALYSIS: The results of the first model of SVM using Image Resizing and PCA to preprocess the data shows promising results, however for the use of AI Image 
+        detection it would prove to be more desireable if accuracy for the model was higher in the 90% range. Currently with 90% of retained
+        varience with PCA, we are achieving accuracy around 80%.</p>
+        <p>NEXT STEPS: Our next steps for this project will be to impelment a seccond and third version of the model. We will look to possibly implement 
+        different data preprocessing methods and see if we achieve a better accuracy. We also want to look into other supervised learning methods such as Naive Bayes
+        or Neural Networks. These will be implemented and then we will compare results to identify which provide the best results.</p>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <p>
+          [1] F. Martin-Rodriguez, R. Garcia-Mojon, and M. Fernandez-Barciela, "Detection of AI-Created Images Using Pixel-Wise Feature Extraction and Convolutional Neural Networks," Sensors, vol. 23, no. 21, p. 8846, Nov. 2023. Available: https://pmc.ncbi.nlm.nih.gov/articles/PMC10674908/. <br>
+          [2] A. Tolosana, R. Vera-Rodriguez, J. Fierrez, A. Morales, and J. Ortega-Garcia, "Deepfake Detection: A Systematic Literature Review," *IEEE Access*, vol. 9, pp. 9915–9945, 2021. Available: [https://ieeexplore.ieee.org/document/9721302](https://ieeexplore.ieee.org/document/9721302). <br>
+          [3] Y. Murali Mohan Babu, Dr. M.V. Subramanyam, Dr. M.N. Giri Prasad, "PCA based image denoising", Signal & Image Processing : An International Journal (SIPIJ) Vol.3, No.2, April 2012
+        </p>
+        <p>
+          <strong>Award Eligibility: YES, We would like to opt in</strong>
+        </p>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <nav class="links">
+      <a href="gantt-chart-midterm.html">Gantt Chart</a> |
+      <a href="contribution-table-midterm.html">Contribution Table</a>
+    </nav>
+  </footer>
+</body>
+</html>

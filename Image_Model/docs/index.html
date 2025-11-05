@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ML 4641 Final Report</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="title">
+      <h1>AI Image Detection Model</h1>
+      <p class="name">Team 54 - Final Report</p>
+    </div>
+  </header>
+  
+  <main class="proposal">
+    <div>
+      <section id="intro">
+        <h2>Introduction/Background</h2>
+        <p>
+          Due to the increased proficiency of AI in generating images, our team decided that an impactful topic for our project would be in detecting these synthetic images.
+        </p>
+        <p>
+          A paper that details a similar goal “Detection of AI-Created Images Using Convolutional Neural Networks”[1],  discusses the growing concern of image generation, and the methods that they implemented in addressing it. Simply stated, the paper details the experience in creating a tool capable of  “making a binary decision over an image, asking whether it is artificially or naturally created”[1]. There has been notable success in our topic prior to recent AI improvements. In 2022 similar detection models were studied, credited with achieving up to “98% accuracy in detecting Deepfakes”[2]. However, stats such as these relied heavily on alignment between the train and test sets, as using “unrelated datasets drops the performance close to 50%”[2]. 
+        </p>
+        Dataset: https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images<br>
+        Our model will be trained on the “Krizhevsky & Hinton CIFAR-10” dataset, which contains 60,000 artificial images and 60,000 natural ones. This set is commonly accepted in training models to classify image generation.
+      </section>
+
+      <section id="problem">
+        <h2>Problem Definition</h2>
+        <p>
+          As AI-generated images become increasingly realistic, distinguishing them from real images has become a challenge. The potential misuse of such images to spread misinformation or perform identity theft raise ethical concerns. Since there's no universal legal requirement for AI-generated images to be labeled, it's crucial to develop automated methods for detecting and classifying them. We hope to provide a reliable tool for verification of digital media.
+        </p>
+      </section>
+
+      <section id="methods">
+        <h2>Methods</h2>
+        <p>
+          To preprocess our data, we resized and grayscaled all images to ensure consistency and reduce computational complexity. This step was important to introduce uniformity among the dataset and help speed up the convergence of our model. Given that each pixel represents a feature, the image data was high-dimensional and it was essential to use dimensionality reduction. We used PCA as our dimensionality reduction technique. We weighed the differences between PCA and SVD but the paper “PCA based image denoising”[3] biased us toward PCA due to it’s ability to preserve  “only the several most significant principal components, [so that] the noise and trivial information can be removed”. It was important to maximize variance so that only the most information features that could be used to distinguish between real and synthetic images. Additionally, focusing on principal components helped mitigate the risk of overfitting. 
+</p> 
+        <p></p>For classification, we employed support vector machines (SVMs). SVMs are effective in high-dimensional spaces and are capable of finding an optimal hyperplane without overfitting. This method also relies on maximizing the margin between classes, which was crucial due to the nature of our data. These images had a large number of irrelevant features and were not necessarily linearly separable, even after dimensionality reduction. By utilizing SVMs, we were able to classify high-dimensional data while minimizing the risk of overfitting. 
+          </p>
+        <p>Our second model was a Random Forrest. This was chosen due to their success in classification tasks. Also, they prove beneficial in not succumbing to overfitting due to their use of multiple decision trees. Also, they are very robust to noise and nonlinear data so we felt that would be a good characteristic for our image data.
+          </p>
+        <p>Our third model is a Convolutional Neural Network. This was chosen due to their design for grid-like image data. Also, CNN's are designed to have automatic feature extraction to identify the most useful features so it makes the classifications more accurate. Also in terms of training time they show to be faster than SVM's so that is an advantage that we want to capitalize on. 
+</p>
+      </section>
+
+      <section id="results">
+        <h2>Results and Discussion</h2>
+        <h3>SVM Model</h3>
+        <figure>
+            <img src="assets/SVM65.png" alt="Confusion Matrix for 65% Retained Varience">
+            <figcaption>Figure 1: Confusion Matrix for 65% Retained Variance -    71.76% Accuracy </figcaption>
+        </figure>
+        <figure>
+            <img src="assets/SVM75.png" alt="Confusion Matrix for 75% Retained Varience">
+            <figcaption>Figure 2: Confusion Matrix for 75% Retained Variance -    76.38% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/SVM95.png" alt="Confusion Matrix for 95% Retained Varience">
+            <figcaption>Figure 3: Confusion Matrix for 95% Retained Variance -    80.95% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/SVMaccuracy.png" alt="Accuracy vs Varience">
+            <figcaption>Figure 4: Accuracy vs Retained Variance Graph</figcaption>
+        </figure>
+        <p>ANALYSIS: The results of the first model of SVM using Image Resizing and PCA to preprocess the data shows promising results, however, this model takes a long time 
+          to train, especially for higher retained variances. Currently, with 95% of retained variance with PCA, we are achieving an accuracy of around 81%.</p>
+        <h3>Random Forest Model</h3>
+        <figure>
+            <img src="assets/RF65.png" alt="Confusion Matrix for 65% Retained Varience">
+            <figcaption>Figure 5: Confusion Matrix for 65% Retained Variance -    71.40% Accuracy </figcaption>
+        </figure>
+        <figure>
+            <img src="assets/RF75.png" alt="Confusion Matrix for 75% Retained Varience">
+            <figcaption>Figure 6: Confusion Matrix for 75% Retained Variance -    73.90% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/RF95.png" alt="Confusion Matrix for 95% Retained Varience">
+            <figcaption>Figure 7: Confusion Matrix for 95% Retained Variance -    74.59% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/RFaccuracy.png" alt="Accuracy vs Varience">
+            <figcaption>Figure 8: Accuracy vs Retained Variance Graph</figcaption>
+        </figure>
+        <p>ANALYSIS: The results of the second model of RF using Image Resizing and PCA to preprocess the data show less promising results. The accuracy values were lower than 
+          compared to SVM. The spike in the accuracy at 100% retained variance can be attributed to the exponentially greater amount of features being inputted. This allows the RF model to have
+          more options of features when choosing the random subset. This leads to the higher accuracy. RF models are good for classification but not good for image data.
+          Currently, with 95% of retained variance with PCA, we are achieving an accuracy of around 74.6%. However, the training time was much lower, even for higher retained variances.</p>
+        <h3>CNN Model</h3>
+        <figure>
+            <img src="assets/CNN65.png" alt="Confusion Matrix for 65% Retained Varience">
+            <figcaption>Figure 9: Confusion Matrix for 65% Retained Variance -    70.67% Accuracy </figcaption>
+        </figure>
+        <figure>
+            <img src="assets/CNN75.png" alt="Confusion Matrix for 75% Retained Varience">
+            <figcaption>Figure 10: Confusion Matrix for 75% Retained Variance -    74.64% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/CNN95.png" alt="Confusion Matrix for 95% Retained Varience">
+            <figcaption>Figure 11: Confusion Matrix for 95% Retained Variance -    80.62% Accuracy</figcaption>
+        </figure>
+        <figure>
+            <img src="assets/CNNaccuracy.png" alt="Accuracy vs Varience">
+            <figcaption>Figure 12: Accuracy vs Retained Variance Graph</figcaption>
+        </figure>
+        <p>ANALYSIS: The results of the third model of CNN using Image Resizing and PCA to preprocess the data shows good results. The accuracies are at the level of the SVM model. However, in
+          contrast to SVM, the CNN model had lower training times. The drop in accuracy at 100% retained variance is due to the greater amount of features present that
+          don't give useful information. This can be attributed as noise which doesn't help a CNN. Currently, with 95% of retained variance with PCA, we are achieving an accuracy of around 81%.</p>
+        <h3>Cross Model Comparisons</h3>
+         <figure>
+          <img src="assets/output1.png" alt="Features vs Variance">
+          <figcaption>Figure 13: Number of Features vs Retained Variance Graph</figcaption>
+      </figure>
+        <figure>
+          <img src="assets/compare.png" alt="Comparison">
+          <figcaption>Figure 14: Comparison of 3 models </figcaption>
+      </figure>
+        <p>ANALYSIS: Comparing all three models shows how SVM and CNN outperformed the RF model. When comparing SVM and CNN, during our implementation it was clear that CNN took a shorter training time.
+        This can prove useful when dealing with large datasets and needing to work quickly</p>
+        <p>NEXT STEPS: If we were to continue work on this project in the future, our next steps would include adding additional data preprocessing methods, as well as alternate feature selection methods to see if that could improve our accuracy to reach higher values. We decided this would be a good next step due to our different models peaking around the same ranges in performance. Additionally, we thought it would be interesting
+          to see if we could use a different data set to train to see if better results will emerge, or if our model is particularly effective on this specific dataset. In terms of future work on this project, we would also like to publish the overall DeepFake Detector Model as a public website, so that people could use our work in testing if images are Ai generated or not.</p>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <p>
+          [1] F. Martin-Rodriguez, R. Garcia-Mojon, and M. Fernandez-Barciela, "Detection of AI-Created Images Using Pixel-Wise Feature Extraction and Convolutional Neural Networks," Sensors, vol. 23, no. 21, p. 8846, Nov. 2023. Available: https://pmc.ncbi.nlm.nih.gov/articles/PMC10674908/. <br>
+          [2] A. Tolosana, R. Vera-Rodriguez, J. Fierrez, A. Morales, and J. Ortega-Garcia, "Deepfake Detection: A Systematic Literature Review," *IEEE Access*, vol. 9, pp. 9915–9945, 2021. Available: [https://ieeexplore.ieee.org/document/9721302](https://ieeexplore.ieee.org/document/9721302). <br>
+          [3] Y. Murali Mohan Babu, Dr. M.V. Subramanyam, Dr. M.N. Giri Prasad, "PCA based image denoising", Signal & Image Processing : An International Journal (SIPIJ) Vol.3, No.2, April 2012
+        </p>
+        <p>
+          <strong>Award Eligibility: YES, We would like to opt in</strong>
+        </p>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <nav class="links">
+      <a href="gantt-chart-final.html">Gantt Chart</a> |
+      <a href="contribution-table-final.html">Contribution Table</a> |
+      <a href="app.html">Demo App</a>
+    </nav>
+  </footer>
+</body>
+</html>
