@@ -4,8 +4,9 @@
 The rise of generative models capable of manipulating both visual and audio content has led to a surge in deepfake media. Because of this there is a need to build robust detection frameworks. Traditional detection systems tend to be unimodal, focusing on visual artifacts or audio cues in isolation. However, real-world deepfakes increasingly manipulate both modalities simultaneously, introducing cross-modal inconsistencies that go undetected by unimodal systems. Our project proposes a multimodal deepfake detection architecture inspired by the Audio-Visual Fusion Framework (AVFF), which leverages both audio and video streams for classification. Our main experimentation is with our use of a complementary masking and cross-modal reconstruction strategy, where masked audio embeddings are predicted using unmasked video inputs and vice versa. This forces the system to learn the correspondence between modalities. These reconstructed embeddings are concatenated with their original counterparts and fused temporally before being passed to a binary classifier. We evaluate our model Deepfake-Eval-2024, a dataset curated for the detection of modern, cross-modality synthetic content. Our model achieves 92.3 % classification accuracy on average and 85.82% ROC-AUC score on average, showing improvements over unimodal baselines. The results validate our hypothesis that modeling intermodal dependencies enables more robust detection of audiovisual inconsistencies, which are indicative of deepfakes.
 
 ## Repository
--Video_Model:
--- `Reorganized.ipynb`
+-Video_Model: \n
+-- `Reorganized.ipynb` '\n'
+
 -- `eval.py`
 -- `stored_features.csv`
 -- `video-metadata-publish.csv`
