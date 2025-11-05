@@ -15,6 +15,11 @@ The rise of generative models capable of manipulating both visual and audio cont
 -- `video-metadata-publish.csv`
 
 -Image_Model:
+-- `models`
+
+--`backend`
+
+-- `docs`
 
 
 ## Execution Guide
